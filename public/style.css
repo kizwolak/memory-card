@@ -2,10 +2,24 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Raleway', sans-serif
 }
 
 body {
     background-color: #034694;
+}
+
+.header {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    color: white;
+}
+
+.header img {
+    width: 10em;
 }
 
 .board {
@@ -32,4 +46,8 @@ body {
     width: 80%;
     height: 70%;
     margin-bottom: 2em;
+}
+
+.counter {
+    margin-left: 8em;
 }

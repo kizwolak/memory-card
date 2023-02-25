@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import Card from './Card'
+import Counter from './Counter'
 
 export default function Board() {
+    const [score, setScore] = useState(0);
+    const [hiScore, setHiScore] = useState(0);
     const [infoArray, setInfoArray] = useState([
         {
             name:'Lampard',
@@ -52,9 +55,25 @@ export default function Board() {
             img:'./images/anelka.webp'
         }
     ])
+    const [takenCards, setTakenCards] = useState([]);
+    console.log(takenCards);
+    function pushToTaken(e) {
+        const textToBePushed = e.currentTarget.textContent;
+        const arrayToBePushed = [];
+        if (takenCards.includes(textToBePushed)) {
+            if (score > hiScore) setHiScore(score)
+            setScore(0);
+        } else {
+            arrayToBePushed.push(textToBePushed);
+            setTakenCards(prevSet => [...prevSet, textToBePushed]);
+            setScore(prevScore => prevScore + 1);
+        }
+    }
     const generateArray = infoArray.map(card => {
         return (
-            <Card name={card.name} img={card.img} onClick={() => shuffleArray(infoArray)} key={card.name}/>
+            <Card name={card.name} img={card.img} onClick={(e) => {
+                shuffleArray(infoArray);
+                pushToTaken(e)}} key={card.name}/>
         )
     })
     function shuffleArray(array) {
@@ -67,21 +86,11 @@ export default function Board() {
         console.log(infoArray)
     }
     return (
-        <div className='board'>
+        <div className='game'>
+            <div className='board'>
             {generateArray}
+            </div>
+            <Counter score={score} hiScore={hiScore}/>
         </div>
     )
 }
-
-{/* <Card img={'./images/lampard.webp'} name={'Lampard'} key={'Lampard'} onClick={shuffleArray}/>,
-<Card img={'./images/hazard.webp'} name={'Hazard'} key={'Hazard'} onClick={shuffleArray}/>,
-<Card img={'./images/zola.webp'} name={'Zola'} key={'Zola'} onClick={shuffleArray}/>,
-<Card img={'./images/carvalho.webp'} name={'Carvalho'} key={'Carvalho'} onClick={shuffleArray}/>,
-<Card img={'./images/cole.webp'} name={'Cole'} key={'Cole'} onClick={shuffleArray}/>,
-<Card img={'./images/drogba.webp'} name={'Drogba'} key={'Drogba'} onClick={shuffleArray}/>,
-<Card img={'./images/ballack.webp'} name={'Ballack'} key={'Ballack'} onClick={shuffleArray}/>,
-<Card img={'./images/osgood.webp'} name={'Osgood'} key={'Osgood'} onClick={shuffleArray}/>,
-<Card img={'./images/terry.webp'} name={'Terry'} key={'Terry'} onClick={shuffleArray}/>,
-<Card img={'./images/ivanovic.webp'} name={'Ivanovic'} key={'Ivanovic'} onClick={shuffleArray}/>,
-<Card img={'./images/mikel.webp'} name={'Mikel'} key={'Mikel'} onClick={shuffleArray}/>,
-<Card img={'./images/anelka.webp'} name={'Anelka'} key={'Anelka'} onClick={shuffleArray}/>, */}
